@@ -1,0 +1,9 @@
+h1 Users
+a(href="/users/create") Create new user
+<hr>
+form(action="/users/search", method="GET", id="abc")
+    input(type="text", name="keySearch", value=key)
+    input(type="submit", value="Find btn")
+ul
+    each user in users
+        li= user.name
