@@ -1,5 +1,15 @@
-h1 Create user
-form(action="/users/create", method="POST")
-    label Name
-    input(type="text", name="name")
-    button(type="submit") Create
+extends ./../layouts/common
+block content
+    h1 
+        span Create user
+    if errors
+        each error in errors
+            .alert.alert-danger #{error}
+    form(action="/users/create", method="POST")
+        .form-group
+            label(for="name") Name
+            input#name.form-control(type="text", name="name", value=values ? values.name : null)
+        .form-group
+            label(for="phone") Phone
+            input#phone.form-control(type="text", name="phone", value=values ? values.phone : null)
+        button.btn.btn-primary(type="submit") Create
