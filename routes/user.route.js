@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("./../controllers/user.controller");
+const validate = require("./../validate/user.validate");
 
-router.get("/", controller.index);
-router.get("/view/:id", controller.view);
-router.get("/search", controller.search);
+// URL: localhost:3000/users/...
 router
-	.get("/create", controller.createGet)
-	.post("/create", controller.createPost);
-router.get("/delete/:id", controller.delete);
+	.get("/", controller.index)
+	.get("/view/:id", controller.view)
+	.get("/search", controller.search)
+	.get("/create", controller.getCreate)
+	.post("/create", validate.postCreate, controller.postCreate)
+	.get("/delete/:id", controller.delete);
 
 module.exports = router;

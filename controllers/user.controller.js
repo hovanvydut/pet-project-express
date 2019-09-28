@@ -28,27 +28,16 @@ module.exports = {
 			key
 		});
 	},
-	createGet: function(req, res) {
+	getCreate: function(req, res) {
 		res.render("users/create");
 	},
-	createPost: function(req, res) {
-		let errors = [];
-		if (!req.body.name) {
-			errors.push("Name is required");
-		}
-		if (!req.body.phone) {
-			errors.push("Phone is required");
-		}
-
-		if (errors.length > 0) {
-			res.render("users/create", { errors, values: req.body });
-		} else {
-			req.body.id = shortid.generate();
-			db.get("users")
-				.push(req.body)
-				.write();
-			res.redirect("/users/");
-		}
+	postCreate: function(req, res) {
+		console.log(res.locals);
+		req.body.id = shortid.generate();
+		db.get("users")
+			.push(req.body)
+			.write();
+		res.redirect("/users/");
 	},
 	delete: function(req, res) {
 		db.get("users")

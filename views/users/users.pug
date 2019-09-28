@@ -3,11 +3,16 @@ block content
     h1 
         span.mr-2 Users
         a.btn.btn-primary(href="/users/create") New user
+
     .d-flex.align-item-center
         form.d-flex.ml-auto(action="/users/search", method="GET")
             input.form-control(type="text", name="keySearch", value=key)
             button.btn.btn-primary.ml-2(type="submit") Search
+            a.btn.btn-primary.ml-2(href="/users") Clear
 
+    if notification
+        .alert.alert-success #{notification}
+        
     table.table.mt-3
         tr
             th Name

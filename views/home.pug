@@ -1,4 +1,9 @@
 extends ./layouts/common
 block content
-    img(src="/static/images/logo.jpg", style="width: 100px; border-radius: 50%")
-    h1 Hello #{name}
+    .card.mx-auto(style='width: 18rem;')
+        img.card-img-top(src='/static/images/logo.jpg', alt='image in home')
+        .card-body
+            h5.card-title #{titleCard}
+            p.card-text
+            |This is my micro project on Coders Tokyo (now change to CodersX). I hope I can success! Fighting
+            a.btn.btn-primary.mt-3.mx-auto(href='/users') Go to Users Page
