@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -13,7 +14,7 @@ app.set("views", "./views");
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use("/static", express.static(path.join(__dirname, "public")));
-app.use(cookieParser("abcdef"));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use("/", require("./routes/home.route"));
 // Muốn truy cập /users thì phải pass authMiddleware(check xem có userID cookie chưa)
