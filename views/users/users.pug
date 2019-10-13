@@ -3,7 +3,8 @@ block content
     h1 
         span.mr-2 Users
         a.btn.btn-primary(href="/users/create") New user
-
+        
+    //- Form search
     .d-flex.align-item-center
         form.d-flex.ml-auto(action="/users/search", method="GET")
             input.form-control(type="text", name="keySearch", value=key)

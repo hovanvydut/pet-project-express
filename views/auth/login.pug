@@ -4,7 +4,7 @@ block content
     if errors
         each error in errors
             .alert.alert-danger #{error}
-    .alert.alert-secondary Thời gian maxAge của cookie là 2 phút. Sau 2 phút phải login lại (đang sử dụng signedCookies)
+    .alert.alert-secondary Thời gian maxAge của cookie là 10 phút. Sau 10 phút phải login lại (đang sử dụng signedCookies). Phải login mới sử dụng được các chức năng khác
     form(action="/auth/login", method="POST")
         .form-group
             label(for="name") Email

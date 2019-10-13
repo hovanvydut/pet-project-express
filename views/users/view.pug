@@ -2,5 +2,7 @@ extends ./../layouts/common
 block content
     h1 View user page
     p
-        b Name
+        b Name: 
         span= user.name
+    div 
+        img(src= user.avatar)
