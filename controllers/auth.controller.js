@@ -26,12 +26,12 @@ module.exports = {
 		}
 
 		// Nếu đúng email && password thì set Cookie cho response
-		// res.cookie("userID", user.id, { signed: true, maxAge: 600000 }); // 10phut
-		res.cookie("userID", user.id, { signed: true });
+		res.cookie("userId", user.id, { signed: true, maxAge: 600000 }); // 10phut
+		// res.cookie("userID", user.id, { signed: true });
 		res.redirect("/users");
 	},
 	logout: function(req, res, next) {
-		res.clearCookie("userID");
+		res.clearCookie("userId");
 		res.redirect("/");
 	}
 };

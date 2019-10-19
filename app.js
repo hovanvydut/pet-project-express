@@ -7,6 +7,7 @@ const port = 3000;
 
 // Middleware giúp kiểm tra xem người dùng đã đăng nhập chưa, dựa trên cookie
 const authMiddleware = require("./middlewares/auth.middleware");
+const sessionMiddleware = require("./middlewares/session.middleware");
 
 // config template engine and folder view
 app.set("view engine", "pug");
@@ -22,13 +23,10 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use("/", require("./routes/home.route"));
-// Muốn truy cập route /users hoặc /products thì phải pass authMiddleware(check sự tồn tại userID Cookie trong database có khớp không?)
-app.use(
-	"/products",
-	authMiddleware.requireAuth,
-	require("./routes/products.route")
-);
+// Muốn truy cập route /users thì phải pass authMiddleware(check sự tồn tại userID Cookie trong database có khớp không?)
 app.use("/users", authMiddleware.requireAuth, require("./routes/user.route"));
+app.use("/products", sessionMiddleware, require("./routes/products.route"));
 app.use("/auth", require("./routes/auth.route"));
+app.use("/cart", require("./routes/cart.route"));
 
 app.listen(port, () => console.log(`Server is listenning on port ${port}`));

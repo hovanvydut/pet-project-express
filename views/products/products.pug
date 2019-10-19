@@ -19,7 +19,7 @@ block content
                         h5.card-title #{product.name}
                         p.card-text
                         | #{product.description}
-                        a.btn.btn-primary(href='#') Go somewhere
+                        a.btn.btn-primary(href=`/cart/add/${product.id}`) Add to cart
         
     //- Pagination
     nav.d-flex.flex-row-reverse(aria-label='Page navigation example')

@@ -1,7 +1,7 @@
 const db = require("../db");
 
 module.exports.requireAuth = function(req, res, next) {
-	if (!req.signedCookies.userID) {
+	if (!req.signedCookies.userId) {
 		res.redirect("/auth/login");
 		return;
 	}
@@ -15,6 +15,7 @@ module.exports.requireAuth = function(req, res, next) {
 		return;
 	}
 
+	// Tạo 1 biến user chứa tên người dùng có thể sử dụng ở view
 	res.locals.user = user;
 	next();
 };

@@ -9,7 +9,7 @@ module.exports = {
 		const end = begin + perPages;
 
 		let datas = db.get("products").value();
-		datas = datas[0].slice(begin, end);
+		datas = datas.slice(begin, end);
 		res.render("products/products.pug", { products: datas });
 	}
 };
