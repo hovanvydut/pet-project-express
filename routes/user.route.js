@@ -14,7 +14,7 @@ router
 	.get("/create", controller.getCreate)
 	.post(
 		"/create",
-		// `avatarImg trong upload.single(avatarImg)` là phải trùng với name attribute trong input(type="file") tag phía client
+		// `avatarImg trong upload.single(avatarImg)` là phải trùng với name attribute trong input(type="file", name="avatarImg") tag phía client
 		upload.single("avatarImg"),
 		validate.postCreate,
 		controller.postCreate

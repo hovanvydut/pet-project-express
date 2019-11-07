@@ -33,8 +33,6 @@ module.exports = {
 		res.render("users/create");
 	},
 	postCreate: function(req, res) {
-		console.log(res.locals);
-
 		req.body.id = shortid.generate();
 
 		// req.file.path = "public\uploads\a63cce86a0f12967a1b25220e49bd93f"
@@ -45,7 +43,7 @@ module.exports = {
 		req.body.avatar = myarr.join("/");
 		// --> req.body.avatar = "/static/uploads/a63cce86a0f12967a1b25220e49bd93f"
 
-		// Lưu dữ liệu vào db
+		// Lưu req.body = {name:'abc', phone:'0123..', id:'abcxyz', avatar:'anyPath'}
 		db.get("users")
 			.push(req.body)
 			.write();

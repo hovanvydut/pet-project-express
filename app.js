@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const csrf = require("csurf");
+
 const app = express();
 const port = 3000;
 
@@ -21,12 +23,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/static", express.static(path.join(__dirname, "public")));
 // config để use req.signedCookies
 app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(csrf({ cookie: true }));
 
 app.use("/", require("./routes/home.route"));
 // Muốn truy cập route /users thì phải pass authMiddleware(check sự tồn tại userID Cookie trong database có khớp không?)
 app.use("/users", authMiddleware.requireAuth, require("./routes/user.route"));
+// sessionMiddleware: kiểm tra xem có cookie chưa, nếu chưa thì tạo cookie có key là sessionId
 app.use("/products", sessionMiddleware, require("./routes/products.route"));
 app.use("/auth", require("./routes/auth.route"));
 app.use("/cart", require("./routes/cart.route"));
+app.use(
+	"/transfer",
+	authMiddleware.requireAuth,
+	require("./routes/transfer.route")
+);
 
 app.listen(port, () => console.log(`Server is listenning on port ${port}`));
