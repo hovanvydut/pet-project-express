@@ -1,33 +1,26 @@
 const md5 = require("md5");
-const db = require("./../db");
+const userModel = require("./../models/user.model");
 
 module.exports = {
 	getLogin: function(req, res, next) {
 		res.render("auth/login");
 	},
-	postLogin: function(req, res, next) {
-		// Tìm kiếm tài khoản email người dùng nhập lên trong cơ sở dữ liệu
-		let user = db
-			.get("users")
-			.find({ email: req.body.email })
-			.value();
-		// Không tồn tại user
+	postLogin: async function(req, res, next) {
+		let user = await userModel.findOne({
+			email: req.body.email,
+			password: md5(req.body.password)
+		});
+
 		if (!user) {
 			res.render("auth/login", {
-				errors: ["Không tồn tại users"],
+				errors: ["Tài khoản hoặc mật khẩu không chính xác."],
 				values: req.body
 			});
 			return;
 		}
-		// Sai mật khẩu
-		if (user.password !== md5(req.body.password)) {
-			res.render("auth/login", { errors: ["Sai mật khẩu"], values: req.body });
-			return;
-		}
 
-		// Nếu đúng email && password thì set Cookie cho response
-		res.cookie("userId", user.id, { signed: true, maxAge: 600000 }); // 10phut
-		// res.cookie("userID", user.id, { signed: true });
+		// Nếu tồn tại user thì set Cookie cho response
+		res.cookie("userId", user._id, { signed: true, maxAge: 10 * 60 * 1000 }); // 10phut
 		res.redirect("/users");
 	},
 	logout: function(req, res, next) {

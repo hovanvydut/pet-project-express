@@ -20,12 +20,13 @@ block content
             th Phone
             th 
             td
-        each user in users
-            tr
-                td= user.name  
-                td= user.phone
-                td 
-                    a.btn.btn-success(href="/users/view/" + user.id) View
-                td
-                    a.btn.btn-danger(href="/users/delete/" + user.id) Delete
+        if users.length !== 0
+            each user in users
+                tr
+                    td= user.name  
+                    td= user.phone
+                    td 
+                        a.btn.btn-success(href=`/users/view/${user.id}`) View
+                    td
+                        a.btn.btn-danger(href=`/users/delete/${user.id}`) Delete
 

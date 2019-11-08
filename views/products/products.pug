@@ -1,13 +1,17 @@
 extends ./../layouts/common 
 block content
     h1 Products Page
+    a(href='/products/create')
+        button.btn.btn-primary(type='button') Create new Product
 
+    if notification
+        p=notification
     //- Thanh tim kiem
-    .d-flex.align-item-center
-        form.d-flex.ml-auto(action="/users/search", method="GET")
-            input.form-control(type="text", name="keySearch", value=key)
-            button.btn.btn-primary.ml-2(type="submit") Search
-            a.btn.btn-primary.ml-2(href="/users") Clear
+    //- .d-flex.align-item-center
+    //-     form.d-flex.ml-auto(action="/users/search", method="GET")
+    //-         input.form-control(type="text", name="keySearch", value=key)
+    //-         button.btn.btn-primary.ml-2(type="submit") Search
+    //-         a.btn.btn-primary.ml-2(href="/users") Clear
     
     //- Products
     .row.mx-sm-n5.my-5.d-flex.justify-content-between

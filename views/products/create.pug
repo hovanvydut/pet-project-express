@@ -1,0 +1,22 @@
+extends ./../layouts/common
+block content
+    h1 
+        span Create Product
+
+    //- if errors
+    //-     .alert.alert-danger
+    //-         ul
+    //-             each error in errors
+    //-                 li #{error}
+                    
+    form(action="/products/create", method="POST")
+        .form-group
+            label(for="name") Name
+            input#name.form-control(type="text", name="name", placeholder="Nantucket - Carrot Orange")
+        .form-group
+            label(for="image") Image (link loremflickr.com)
+            input#image.form-control(type="text", name="image", placeholder="https://loremflickr.com/320/240")
+        .form-group
+            label(for="description") Description
+            input#description.form-control-file(type="text", name="description", placeholder="donec quis orci eget orci vehicula condimentum curabitur in libero ut ...")
+        button.btn.btn-primary(type="submit") Add

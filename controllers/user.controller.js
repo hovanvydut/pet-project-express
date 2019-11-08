@@ -1,30 +1,23 @@
-const shortid = require("shortid");
-const db = require("./../db");
 const fs = require("fs");
+const userModel = require("./../models/user.model");
 
 module.exports = {
-	index: function(req, res) {
-		res.render("users/users.pug", {
-			users: db.get("users").value()
+	index: async function(req, res) {
+		let users = await userModel.find({});
+		res.render("users/index.pug", {
+			users
 		});
 	},
-	view: function(req, res) {
+	view: async function(req, res) {
+		let user = await userModel.findById(req.params.id);
 		res.render("users/view", {
-			user: db
-				.get("users")
-				.find({ id: req.params.id })
-				.value()
+			user
 		});
 	},
-	search: function(req, res) {
+	search: async function(req, res) {
 		let key = req.query.keySearch;
-		let matchedUser = db
-			.get("users")
-			.value()
-			.filter(user => {
-				return new RegExp(key, "gi").test(user.name);
-			});
-		res.render("users/users", {
+		let matchedUser = await userModel.find({ name: new RegExp(key, "gi") });
+		res.render("users/index", {
 			users: matchedUser,
 			key
 		});
@@ -32,9 +25,7 @@ module.exports = {
 	getCreate: function(req, res) {
 		res.render("users/create");
 	},
-	postCreate: function(req, res) {
-		req.body.id = shortid.generate();
-
+	postCreate: async function(req, res) {
 		// req.file.path = "public\uploads\a63cce86a0f12967a1b25220e49bd93f"
 		let myarr = req.file.path.split(/\\/g);
 		// --> myarr = ["public", "uploads", "a63cce86a0f12967a1b25220e49bd93f"]
@@ -43,19 +34,20 @@ module.exports = {
 		req.body.avatar = myarr.join("/");
 		// --> req.body.avatar = "/static/uploads/a63cce86a0f12967a1b25220e49bd93f"
 
-		// Lưu req.body = {name:'abc', phone:'0123..', id:'abcxyz', avatar:'anyPath'}
-		db.get("users")
-			.push(req.body)
-			.write();
+		// create document instance of model
+		let data = new userModel({
+			name: req.body.name,
+			phone: req.body.phone,
+			avatar: req.body.avatar
+		});
+		await data.save();
 		res.redirect("/users/");
 	},
-	delete: function(req, res) {
+	delete: async function(req, res) {
+		let user = await userModel.findById(req.params.id);
 		// xoá file ảnh trong public/uploads/abcxyz...
 		// lấy đường dẫn thư mục lưu file trong database
-		let path = db
-			.get("users")
-			.find({ id: req.params.id })
-			.value().avatar;
+		let path = user.avatar;
 		// --> path = "/static/uploads/5eb26c81a7d134e5d297412859c8347d"
 
 		path = path.split("/");
@@ -73,12 +65,8 @@ module.exports = {
 
 		// method xoá file: unlink & unlinkSync của module file system trong docs nodejs
 		fs.unlinkSync(path);
-
-		// xoá data trong database(file db.json);
-		db.get("users")
-			.remove({ id: req.params.id })
-			.write();
-
+		// xoa document trong collection users
+		await userModel.deleteOne({ _id: req.params.id });
 		res.redirect("/users/");
 	}
 };

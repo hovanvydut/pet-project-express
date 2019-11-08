@@ -1,24 +1,17 @@
-const db = require("./../db");
+const userModel = require("./../models/user.model");
 
-module.exports.postCreate = function(req, res, next) {
+module.exports.postCreate = async function(req, res, next) {
 	let errors = [];
+	let users = await userModel.find({});
 
-	if (!/^[A-Za-z\s]{2,}$/.test(req.body.name)) {
+	if (!/^[A-Za-z\s]{2,}$/.test(req.body.name))
 		errors.push("Tên phải từ 2 kí tự trở lên");
-	}
-	if (
-		db
-			.get("users")
-			.value()
-			.some(e => e.name === req.body.name)
-	) {
+	if (users.some(user => user.name === req.body.name))
 		errors.push("Tên đã tồn tại!");
-	}
-	if (!/^0\d{9,10}$/.test(req.body.phone)) {
+	if (!/^0\d{9,10}$/.test(req.body.phone))
 		errors.push(
 			"Không đúng định dạng số điện thoại 0xxxxxxxxx[x] (10 hoặc 11 số)"
 		);
-	}
 
 	// Nếu có lỗi <=> người dùng nhập thông tin không đúng định dạng => render lại trang view create cùng với errors array
 	if (errors.length > 0) {

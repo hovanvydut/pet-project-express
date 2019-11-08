@@ -674,6 +674,12 @@
       "accountId": "test 02",
       "amount": 123000,
       "userId": "bSG9HoFa"
+    },
+    {
+      "id": "k23LT_on",
+      "accountId": "Tung Thanh",
+      "amount": 7777777,
+      "userId": "bSG9HoFa"
     }
   ]
 }
