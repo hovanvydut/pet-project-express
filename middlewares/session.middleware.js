@@ -1,21 +1,30 @@
-const db = require("./../db");
+const sessionModel = require("./../models/session.model");
+const userModel = require("./../models/user.model");
 const shortid = require("shortid");
 
-module.exports = function(req, res, next) {
-	// kiểm tra xem có sessionID chưa, nếu chưa thì tạo
-	console.log("session.middleware field");
-	// if (!req.signedCookies.sessionId) {
-	// 	console.log("session.middleware");
-	// 	const sessionId = shortid.generate();
-
-	// 	// tạo 1 cookie có key là sessionId (có sử dụng signed)
-	// 	res.cookie("sessionId", sessionId, { signed: true, maxAge: 3600000 }); // 1 hour
-
-	// 	// save sessionId vào session field trong db
-	// 	db.get("sessions")
-	// 		.push({ id: sessionId })
-	// 		.write();
+module.exports = async function(req, res, next) {
+	console.log("pass over session.middleware");
+	const userId = req.signedCookies.userId;
+	let sessionId = req.signedCookies.sessionId;
+	if (userId) {
+		let user = userModel.findById(userId);
+		if (user) {
+			await userModel.updateOne({ _id: userId }, { carts: [{}] });
+		}
+	}
+	// let auth = false; // để phân biệt người truy cập /products có đăng nhập hay không
+	// if (!sessionId) {
+	// 	if (userId) {
+	// 		sessionId = userId;
+	// 		auth = true;
+	// 		let doc = sessionModel({ userId: sessionId, auth });
+	// 		await doc.save();
+	// 	} else {
+	// 		sessionId = shortid.generate();
+	// 		let doc = sessionModel({ userId: sessionId, auth });
+	// 		await doc.save();
+	// 	}
+	// 	res.cookie("sessionId", sessionId, { signed: true });
 	// }
-
 	next();
 };

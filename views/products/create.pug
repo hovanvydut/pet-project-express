@@ -12,7 +12,7 @@ block content
     form(action="/products/create", method="POST")
         .form-group
             label(for="name") Name
-            input#name.form-control(type="text", name="name", placeholder="Nantucket - Carrot Orange")
+            input#name.form-control( autofocus,type="text", name="name", placeholder="Nantucket - Carrot Orange")
         .form-group
             label(for="image") Image (link loremflickr.com)
             input#image.form-control(type="text", name="image", placeholder="https://loremflickr.com/320/240")

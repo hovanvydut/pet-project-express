@@ -34,6 +34,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/static", express.static(path.join(__dirname, "public")));
 // config để use req.signedCookies
 app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use("/transfer", csrf({ cookie: true }));
+
+app.use('/api/products', require('./api/routes/product.route'));
 
 app.use("/", require("./routes/home.route"));
 // Muốn truy cập route /users thì phải pass authMiddleware(check sự tồn tại userID Cookie trong database có khớp không?)
@@ -42,8 +45,6 @@ app.use("/users", authMiddleware.requireAuth, require("./routes/user.route"));
 app.use("/products", sessionMiddleware, require("./routes/products.route"));
 app.use("/auth", require("./routes/auth.route"));
 app.use("/cart", require("./routes/cart.route"));
-
-app.use(csrf({ cookie: true }));
 app.use(
 	"/transfer",
 	authMiddleware.requireAuth,

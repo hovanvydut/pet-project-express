@@ -1,33 +1,23 @@
-const db = require("./../db");
+const sessionModel = require("./../models/session.model");
 
 module.exports.addToCart = function(req, res, next) {
-	const productId = req.params.productId;
-	const sessionId = req.signedCookies.sessionId;
+	console.log('pass over cart.controller.js')
+	// const productId = req.params.productId;
+	// const sessionId = req.signedCookies.sessionId;
 
-	if (sessionId) {
-		let count = db
-			.get("sessions")
-			.find({ id: sessionId })
-			.get(`cart.${productId}`, 0)
-			.value();
-
-		db.get("sessions")
-			.find({ id: sessionId })
-			.set(`cart.${productId}`, count + 1)
-			.write();
-
-		// let item = db
-		// 	.get("sessions")
-		// 	.find({ id: sessionId })
-		// 	.get("cart")
-		// 	.value();
-		res.locals.cartCount = Object.values(
-			db
-				.get("sessions")
-				.find({ id: sessionId })
-				.get("cart")
-				.value()
-		).reduce((acc, cur) => acc + cur, 0);
-	}
+	// if (sessionId) {
+	// 	let document = sessionModel.findOne({ userId: sessionId });
+	// 	console.log(document.cart);
+	// 	if (!document.cart) {
+	// 		sessionModel
+	// 			.findOne({ userId: sessionId })
+	// 			.update({ cart: new Map(`${productId}`, 0) });
+	// 	}
+	// 	let count = document.cart[productId];
+	// 	sessionModel
+	// 		.findOne({ userId: sessionId })
+	// 		.update({ cart: new Map(`${productId}`, count + 1) });
+	// }
+	// res.locals.cartCount = 5;
 	res.redirect("/products");
 };

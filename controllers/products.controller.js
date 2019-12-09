@@ -2,9 +2,14 @@ const productModel = require("./../models/product.model");
 
 module.exports = {
 	getProducts: async function(req, res, next) {
-		// Chưa tạo chức năng phân trang
-		let datas = await productModel.find({});
-		res.render("products/products.pug", { products: datas });
+		const itemsPerPage = 8;
+		let currentPage = Number(req.query.page) || 1;
+		let skip = itemsPerPage * (currentPage - 1);
+		let datas = await productModel
+			.find({})
+			.skip(skip)
+			.limit(itemsPerPage);
+		res.render("products/products.pug", { products: datas, currentPage });
 	},
 	getCreateProduct: function(req, res, next) {
 		res.render("products/create.pug");

@@ -20,11 +20,16 @@ module.exports = {
 		}
 
 		// Nếu tồn tại user thì set Cookie cho response
-		res.cookie("userId", user._id, { signed: true, maxAge: 10 * 60 * 1000 }); // 10phut
+		res.cookie("userId", user._id, {
+			signed: true,
+			maxAge: 60 * 60 * 1000
+		}); // 1 hour
+		res.clearCookie("sessionId");
 		res.redirect("/users");
 	},
 	logout: function(req, res, next) {
 		res.clearCookie("userId");
+		res.clearCookie("sessionId");
 		res.redirect("/");
 	}
 };
