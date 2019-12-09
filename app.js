@@ -16,7 +16,7 @@ db.once("open", function() {
 });
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Middleware giúp kiểm tra xem người dùng đã đăng nhập chưa, dựa trên cookie
 const authMiddleware = require("./middlewares/auth.middleware");
